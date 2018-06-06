@@ -1,0 +1,132 @@
+<div class="p-3">
+<mat-card *ngIf="!appAsExtn">
+  <mat-card-content>
+    <mat-grid-list cols="20" rowHeight="300px">
+      <mat-grid-tile colspan="9">
+        <div class="w-100 text-right">
+          <div class="socialLoginDiv">
+            <div>
+              <button mat-raised-button (click)="signInWithGoogle()" class="btn btn-google">
+                <i class="fa fa-google-plus fa-md"></i><span>&emsp;Login with Google</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button (click)="signInWithFacebook()" class="btn btn-facebook">
+                <i class="fa fa-facebook fa-md"></i> <span>&emsp;Login with Facebook</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button (click)="signInWithTwitter()" class="btn btn-twitter">
+                <i class="fa fa-twitter fa-md"></i> <span>&emsp;Login with Twitter</span>
+              </button>
+            </div>
+          </div>
+        </div>       
+      </mat-grid-tile>
+      <mat-grid-tile colspan="2">
+          <div class="vertical-line"></div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="9">        
+        <div class="w-100 text-left">        
+          <div class="w-75">
+            <div class="gen-div text-danger" *ngIf="messages.length > 0">
+              <div *ngFor="let message of messages">{{message}}</div>
+            </div> 
+            <h4>Sign in Manually</h4>
+            <form (ngSubmit)="userFormSubmit(userForm.valid)" [formGroup]="userForm">
+              <div class="example-container">    
+                <mat-form-field>
+                  <input matInput placeholder="Enter your email" [formControl]="email" required>
+                  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" 
+                    [formControl]="password" (blur)="checkPasswords()" required>
+                  <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
+                  <mat-error *ngIf="password.invalid">{{getMinLengthErrorMessage()}}</mat-error>       
+                </mat-form-field>
+                <mat-form-field *ngIf="registerNow">
+                  <input matInput placeholder="Confirm your password" [type]="hide ? 'password' : 'text'" 
+                    [formControl]="confirmPassword" (blur)="checkPasswords()" required>
+                  <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
+                  <mat-error *ngIf="confirmPassword.invalid">{{getMinLengthErrorMessage()}}</mat-error>       
+                </mat-form-field>    
+                <div class="gen-div">
+                  <button mat-raised-button type="submit" [disabled]="userForm.invalid" class="btn btn-primary float-right">
+                    <span *ngIf="!registerNow">Sign In</span>
+                    <span *ngIf="registerNow">Sign Up</span>
+                  </button>                     
+                </div>
+                <div class="gen-div">
+                  <span *ngIf="!registerNow"><a href="#" (click)="registerNow = !registerNow; userForm.addControl('confirmPassword', confirmPassword);">Register now</a></span>
+                  <span *ngIf="registerNow"><a href="#" (click)="registerNow = !registerNow; userForm.removeControl('confirmPassword');">User? Click Here</a></span>      
+                  <span class="float-right"><a href="#">Forgot password?</a></span>
+                </div>      
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="appAsExtn">
+  <mat-card-content>
+  <div class="w-100 text-center p-3 min-width-400">        
+      <div class="gen-div text-danger" *ngIf="messages.length > 0">
+        <div *ngFor="let message of messages">{{message}}</div>
+      </div> 
+      <h4>Sign in</h4>
+      <form (ngSubmit)="userFormSubmit(userForm.valid)" [formGroup]="userForm">
+        <div class="example-container">    
+          <mat-form-field>
+            <input matInput placeholder="Enter your email" [formControl]="email" required>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" 
+              [formControl]="password" (blur)="checkPasswords()" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
+            <mat-error *ngIf="password.invalid">{{getMinLengthErrorMessage()}}</mat-error>       
+          </mat-form-field>
+          <mat-form-field *ngIf="registerNow">
+            <input matInput placeholder="Confirm your password" [type]="hide ? 'password' : 'text'" 
+              [formControl]="confirmPassword" (blur)="checkPasswords()" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon> 
+            <mat-error *ngIf="confirmPassword.invalid">{{getMinLengthErrorMessage()}}</mat-error>       
+          </mat-form-field>               
+          <div class="gen-div">
+            <button mat-raised-button type="submit" [disabled]="userForm.invalid" class="btn btn-primary float-right">
+              <span *ngIf="!registerNow">Sign In</span>
+              <span *ngIf="registerNow">Sign Up</span>
+            </button>                     
+          </div>
+          <div class="gen-div">
+            <span *ngIf="!registerNow"><a href="#" (click)="registerNow = !registerNow; userForm.addControl('confirmPassword', confirmPassword);">Register now</a></span>
+            <span *ngIf="registerNow"><a href="#" (click)="registerNow = !registerNow; userForm.removeControl('confirmPassword');">User? Click Here</a></span>      
+            <span class="float-right"><a href="#">Forgot password?</a></span>
+          </div>
+          <div class="gen-div pt-4">
+            <span class="socialLoginBtnExtn">
+              <button mat-raised-button (click)="signInWithGoogle()" class="btn btn-google">
+                <i class="fa fa-google-plus fa-md"></i>
+              </button>
+            </span>
+            <span class="socialLoginBtnExtn">
+              <button mat-raised-button (click)="signInWithFacebook()" class="btn btn-facebook">
+                <i class="fa fa-facebook fa-md"></i>
+              </button>
+            </span>
+            <span class="socialLoginBtnExtn">
+              <button mat-raised-button (click)="signInWithTwitter()" class="btn btn-twitter">
+                <i class="fa fa-twitter fa-md"></i>
+              </button>
+            </span>
+          </div> 
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+<div>

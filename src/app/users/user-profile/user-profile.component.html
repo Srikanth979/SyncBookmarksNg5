@@ -1,0 +1,49 @@
+<app-tree-flat-overview-example *ngIf="!appAsExtn"></app-tree-flat-overview-example>
+<div *ngIf="appAsExtn">
+    <div class="gen-div p-2">
+        Welcome, {{displayName != ''? displayName: 'User'}}
+    </div>
+    <div class="p-4">
+        <!-- <mat-form-field>
+            <input matInput placeholder="Enter your Device name (ex: Living Room Desktop)" 
+                [formControl]="deviceNameControl" (blur)="setDeviceName()" required>            
+            <mat-error *ngIf="deviceNameControl.invalid">{{getMaxLengthErrorMessage()}}</mat-error>       
+        </mat-form-field> -->
+        <mat-form-field>
+            <input matInput placeholder="Enter your Device name (ex: Living Room Desktop)" aria-label="State" 
+                [matAutocomplete]="auto" [formControl]="deviceNameControl" (blur)="setDeviceName()" required>            
+            <mat-error *ngIf="deviceNameControl.invalid">{{getMaxLengthErrorMessage()}}</mat-error>
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let device of devices" [value]="device">
+                <span>{{ device }}</span>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="gen-div">                
+        <div class="gen-div text-center">
+            <button mat-raised-button (click)="export()" class="btn btn-custm bg-yellow" [disabled]="exportTaskInProgress"
+                matTooltip="Export your curent browser's bookmarks into your Account." [matTooltipPosition]="'below'">
+                Export Bookmarks&nbsp;
+                <span *ngIf="exportTaskInProgress">
+                    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>        
+        <div class="gen-div text-center">
+            <button mat-raised-button (click)="import()" class="btn btn-custm btn-warning" [disabled]="importTaskInProgress"
+                matTooltip="Import all of your browser's bookmarks into current browser." [matTooltipPosition]="'below'">
+                Import Bookmarks&nbsp;
+                <span *ngIf="importTaskInProgress">
+                    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="pt-3 text-center" *ngIf="importTaskCmpltd || exportTaskCmpltd">
+        <div class="gen-div alert alert-info alert-dismissible fade show" *ngIf="panelMessage != ''">
+            <button type="button" class="close" data-dismiss="alert" (click)="panelMessage = ''">&times;</button>
+            {{panelMessage}}              
+        </div>
+    </div>
+</div>
